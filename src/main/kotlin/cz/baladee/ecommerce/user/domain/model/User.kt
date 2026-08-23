@@ -9,8 +9,7 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.Table
 import java.util.UUID
-import kotlin.time.Clock
-import kotlin.time.Instant
+import java.time.Instant
 
 @Entity
 @Table(name = "users", schema = "\"user\"")
@@ -39,7 +38,7 @@ class User(
     var phone: String? = null,
 
     @Column(name = "created_at", nullable = false, updatable = false)
-    var createdAt: Instant = Clock.System.now(),
+    var createdAt: Instant = Instant.now(),
 
     @Column(name = "updated_at")
     var updatedAt: Instant? = null,

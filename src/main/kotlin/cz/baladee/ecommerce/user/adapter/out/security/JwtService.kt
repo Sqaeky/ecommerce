@@ -10,9 +10,9 @@ import java.util.Date
 
 @Service
 class JwtService(
-    @Value("\${jwt.secret}")
+    @Value("\${spring.jwt.secret}")
     private val secret: String,
-    @Value("\${jwt.expiration-ms:84600000}") // Default to 24 hours if not set
+    @Value("\${spring.jwt.expiration-ms:84600000}") // Default to 24 hours if not set
     private val expirationMs: Long
 ) {
 
