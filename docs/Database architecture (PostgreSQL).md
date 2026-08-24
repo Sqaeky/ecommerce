@@ -30,7 +30,7 @@ payments 1 - * payment_attempts
 
 - id (PK)
 - name
-- slug
+- slug  -- čitelná URL verze názvu
 - description
 - price
 - currency
