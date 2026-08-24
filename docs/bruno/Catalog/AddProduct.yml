@@ -1,0 +1,25 @@
+info:
+  name: AddProduct
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{hostname}}/api/catalog/product"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Laptop Dell XPS 13",
+        "description": "Ultrabook s 13.4 displejem a výkonným procesorem",
+        "price": 24999.99,
+        "categoryId": "{{CategoryId}}"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

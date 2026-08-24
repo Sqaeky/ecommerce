@@ -1,0 +1,30 @@
+info:
+  name: AddCategory
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{hostname}}/api/catalog/category"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "Elektro",
+        "description": "Kategorie s elektronickými zařízeními"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        const data = res.getBody();
+        bru.setCollectionVar("CategoryId", data);
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
