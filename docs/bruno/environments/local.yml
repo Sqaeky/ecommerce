@@ -2,4 +2,5 @@ name: local
 variables:
   - name: hostname
     value: http://localhost:8080
-    description: ""
+  - name: token
+    value: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJib21iYUBzZXpuYW0uY3oiLCJpYXQiOjE3ODc2MDIyNzcsImV4cCI6MTc4NzY4ODY3N30.U0CIES5qGhbJUsrYo205A4aJ7ub0vh2W80j34V5K8tLxRv0PFNoPHo8ic4KCOc9Himun6oeLO8LuA3_SEMFFww

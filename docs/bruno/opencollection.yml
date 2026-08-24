@@ -2,6 +2,25 @@ opencollection: 1.0.0
 
 info:
   name: ecommerce
+config:
+  proxy:
+    inherit: true
+    config:
+      protocol: http
+      hostname: ""
+      port: ""
+      auth:
+        username: ""
+        password: ""
+      bypassProxy: ""
+
+request:
+  headers:
+    - name: Authorization
+      value: Bearer {{token}}
+  variables:
+    - name: CategoryId
+      value: b5df0105-30ec-4480-812f-eba04375e847
 bundled: false
 extensions:
   bruno:
