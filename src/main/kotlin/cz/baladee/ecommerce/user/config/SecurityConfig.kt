@@ -28,7 +28,7 @@ class SecurityConfig(
             .csrf { it.disable() }
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/auth/**").permitAll() // login + register
+                    .requestMatchers("/auth/**", "/error").permitAll() // login + register
                     .anyRequest().authenticated()
             }
             .sessionManagement { session ->
