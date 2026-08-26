@@ -1,5 +1,6 @@
 package cz.baladee.ecommerce.user.domain.model
 
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.EnumType
@@ -7,9 +8,10 @@ import jakarta.persistence.Enumerated
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import java.util.UUID
 import java.time.Instant
+import java.util.UUID
 
 @Entity
 @Table(name = "users", schema = "\"user\"")
@@ -44,7 +46,10 @@ class User(
     var updatedAt: Instant? = null,
 
     @Column(name = "deleted_at")
-    var deletedAt: Instant? = null
+    var deletedAt: Instant? = null,
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
+    var addresses: MutableList<Address> = mutableListOf()
 )
 
 enum class Role {
