@@ -10,9 +10,11 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
+import jakarta.persistence.Table
 import java.util.UUID
 
 @Entity
+@Table(name = "addresses", schema = "\"user\"")
 class Address(
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,7 +34,7 @@ class Address(
     @Column(nullable = false)
     var city: String,
 
-    @Column(name = "postal_code", nullable = false)
+    @Column(name = "zip_code", nullable = false)
     var postalCode: String,
 
     @Column(nullable = false)
