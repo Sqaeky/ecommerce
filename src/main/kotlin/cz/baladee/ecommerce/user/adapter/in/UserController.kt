@@ -22,7 +22,7 @@ class UserController(
     }
 
     @PutMapping("/update/{id}")
-    fun updateUser(@PathVariable id: UUID, @RequestBody user: User): User {
-        return service.updateUser(id, user)
+    fun updateUser(@PathVariable id: UUID, @RequestBody user: User) {
+        service.updateUser(id, user)
     }
 }
