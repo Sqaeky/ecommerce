@@ -37,14 +37,20 @@ class Address(
     @Column(name = "zip_code", nullable = false)
     var postalCode: String,
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    var country: String,
+    var country: Country,
 
     @Column(name = "is_default", nullable = false)
-    var isDefault: Boolean = true,
+    var isDefault: Boolean = false,
 )
 
 enum class AddressType {
     BILLING,
     SHIPPING
+}
+
+enum class Country {
+    CZ,
+    DE
 }
