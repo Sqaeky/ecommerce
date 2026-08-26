@@ -2,26 +2,26 @@ package cz.baladee.ecommerce.user.application.user
 
 import cz.baladee.ecommerce.shared.advice.exception.NotFoundException
 import cz.baladee.ecommerce.shared.util.Errors.USER_ID_NOT_FOUND
+import cz.baladee.ecommerce.user.application.mapper.UserMapper
 import cz.baladee.ecommerce.user.application.user.dto.User
-import cz.baladee.ecommerce.user.application.user.dto.modifyDbUser
-import cz.baladee.ecommerce.user.application.user.dto.toDto
 import cz.baladee.ecommerce.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
 class UserService(
-    private val userRepo: UserRepository
+    private val userRepo: UserRepository,
+    private val mapper: UserMapper
 ) {
 
     fun loadUser(id: UUID): User {
         val user = userRepo.findById(id) ?: throw NotFoundException(USER_ID_NOT_FOUND)
-        return user.toDto()
+        return mapper.toDto(user)
     }
 
-    fun updateUser(id: UUID, user: User): User {
+    fun updateUser(id: UUID, user: User) {
         val existingUser = userRepo.findById(id) ?: throw NotFoundException(USER_ID_NOT_FOUND)
-        val updatedUser = user.modifyDbUser(existingUser)
-        return userRepo.save(updatedUser).toDto()
+        mapper.modifyUser(user, existingUser)
+        userRepo.save(existingUser)
     }
 }
