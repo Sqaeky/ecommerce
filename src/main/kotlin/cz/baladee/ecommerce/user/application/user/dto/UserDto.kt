@@ -1,6 +1,7 @@
 package cz.baladee.ecommerce.user.application.user.dto
 
 import cz.baladee.ecommerce.user.domain.model.AddressType
+import cz.baladee.ecommerce.user.domain.model.Country
 import java.time.Instant
 import java.util.UUID
 
@@ -21,5 +22,5 @@ data class Address(
     val street: String,
     val city: String,
     val postalCode: String,
-    val country: String,
+    val country: Country,
 )

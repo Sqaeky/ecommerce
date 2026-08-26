@@ -1,7 +1,9 @@
 package cz.baladee.ecommerce.user.adapter.`in`
 
+import cz.baladee.ecommerce.user.adapter.out.security.CustomUserDetails
 import cz.baladee.ecommerce.user.application.user.UserService
 import cz.baladee.ecommerce.user.application.user.dto.User
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PutMapping
@@ -16,9 +18,11 @@ class UserController(
     private val service: UserService
 ) {
 
-    @GetMapping("/{id}")
-    fun loadUser(@PathVariable id: UUID): User {
-        return service.loadUser(id)
+    @GetMapping("/me")
+    fun loadUser(): User {
+        val authentication = SecurityContextHolder.getContext().authentication
+        val userDetails = authentication?.principal as CustomUserDetails
+        return service.loadUser(userDetails.getId())
     }
 
     @PutMapping("/update/{id}")

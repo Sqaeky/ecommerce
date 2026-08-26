@@ -1,0 +1,23 @@
+info:
+  name: UpdateUser
+  type: http
+  seq: 2
+
+http:
+  method: PUT
+  url: "{{hostname}}/api/users/update/:userId"
+  params:
+    - name: userId
+      value: "{{id}}"
+      type: path
+  body:
+    type: json
+    data: ""
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

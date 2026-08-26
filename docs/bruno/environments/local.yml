@@ -3,4 +3,6 @@ variables:
   - name: hostname
     value: http://localhost:8080
   - name: token
-    value: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJib21iYUBzZXpuYW0uY3oiLCJpYXQiOjE3ODc2MDIyNzcsImV4cCI6MTc4NzY4ODY3N30.U0CIES5qGhbJUsrYo205A4aJ7ub0vh2W80j34V5K8tLxRv0PFNoPHo8ic4KCOc9Himun6oeLO8LuA3_SEMFFww
+    value: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJib21iYUBzZXpuYW0uY3oiLCJpYXQiOjE3ODc3Njg2MDYsImV4cCI6MTc4Nzg1NTAwNn0.vFXTuPHBqwL9SvW9QviSOi-RR9f4Ie3Fp9VBpTva0snK2VnJ-tgP-yIvTdk6ysWLCVVi1C6xNKYlRPKaxljjFw
+  - name: id
+    value: 934ad3c5-01e1-4e3d-9874-7b0544441c70
