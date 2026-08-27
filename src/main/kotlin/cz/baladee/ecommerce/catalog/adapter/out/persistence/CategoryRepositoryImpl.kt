@@ -16,4 +16,8 @@ class CategoryRepositoryImpl(
     override fun save(category: Category): Category {
         return jpaRepo.save(category)
     }
+
+    override fun findAll(): List<Category> {
+        return jpaRepo.findAll()
+    }
 }

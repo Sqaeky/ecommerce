@@ -1,4 +1,4 @@
-package cz.baladee.ecommerce.catalog.application.dto
+package cz.baladee.ecommerce.catalog.application.dto.product
 
 import cz.baladee.ecommerce.catalog.domain.model.Currency
 import java.math.BigDecimal

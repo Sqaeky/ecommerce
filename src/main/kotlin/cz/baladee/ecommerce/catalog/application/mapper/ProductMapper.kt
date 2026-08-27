@@ -1,7 +1,7 @@
 package cz.baladee.ecommerce.catalog.application.mapper
 
-import cz.baladee.ecommerce.catalog.application.dto.Product
-import cz.baladee.ecommerce.catalog.application.dto.UpdateProductReq
+import cz.baladee.ecommerce.catalog.application.dto.product.Product
+import cz.baladee.ecommerce.catalog.application.dto.product.UpdateProductReq
 import cz.baladee.ecommerce.catalog.domain.model.Category
 import org.springframework.stereotype.Component
 import cz.baladee.ecommerce.catalog.domain.model.Product as DbProduct
