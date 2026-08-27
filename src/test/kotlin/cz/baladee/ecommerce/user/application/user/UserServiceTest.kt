@@ -3,6 +3,7 @@ package cz.baladee.ecommerce.user.application.user
 import cz.baladee.ecommerce.shared.advice.exception.NotFoundException
 import cz.baladee.ecommerce.shared.util.Errors
 import cz.baladee.ecommerce.user.application.mapper.UserMapper
+import cz.baladee.ecommerce.user.application.user.dto.UpdateUserReq
 import cz.baladee.ecommerce.user.application.user.dto.User as UserDto
 import cz.baladee.ecommerce.user.domain.model.User as DomainUser
 import cz.baladee.ecommerce.user.domain.repository.UserRepository
@@ -82,14 +83,10 @@ class UserServiceTest {
             lastName = "Novák",
             phone = "+420777123456"
         )
-        val incomingUser = UserDto(
-            id = id,
-            email = existingUser.email,
+        val incomingUser = UpdateUserReq(
             firstName = "Janek",
             lastName = "Novotný",
-            phone = "+420777654321",
-            createdAt = Instant.now(),
-            updatedAt = null,
+            phone = "+420777123467",
         )
 
         every { userRepository.findById(id) } returns existingUser
@@ -106,14 +103,10 @@ class UserServiceTest {
     @Test
     fun `updateUser should throw NotFoundException when user does not exist`() {
         val id = UUID.randomUUID()
-        val incomingUser = UserDto(
-            id = id,
-            email = "jan.novak@example.com",
+        val incomingUser = UpdateUserReq(
             firstName = "Jan",
             lastName = "Novák",
             phone = "+420777123456",
-            createdAt = Instant.now(),
-            updatedAt = null,
         )
 
         every { userRepository.findById(id) } returns null
