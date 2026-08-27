@@ -4,7 +4,8 @@ import cz.baladee.ecommerce.inventory.application.dto.Stock
 import cz.baladee.ecommerce.inventory.application.mapper.StockMapper
 import cz.baladee.ecommerce.inventory.domain.model.Stock as DbStock
 import cz.baladee.ecommerce.inventory.domain.repository.StockRepository
-import cz.baladee.ecommerce.shared.advice.exception.IllegalNegativeNumber
+import cz.baladee.ecommerce.shared.advice.exception.NegativeQuantityException
+import cz.baladee.ecommerce.shared.advice.exception.InsufficientStockException
 import cz.baladee.ecommerce.shared.util.Errors
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -27,11 +28,23 @@ class StockService(
     }
 
     fun adjustQuantity(id: UUID, quantity: Int): Stock {
-        if (quantity < 0) {
-            throw IllegalNegativeNumber(Errors.NEGATIVE_QUANTITY, "Quantity cannot be negative number")
-        }
         val stock = stockRepo.findByProductId(id)
-        stock.quantity = quantity
+        if (stock.quantity - quantity < 0) {
+            throw NegativeQuantityException(Errors.NEGATIVE_QUANTITY, "Final quantity cannot go into negative number")
+        }
+        stock.quantity += quantity
         return mapper.toDto(stockRepo.save(stock))
     }
+
+    fun reserveQuantity(id: UUID, quantity: Int): Stock {
+            if (quantity < 0) {
+                throw NegativeQuantityException(Errors.NEGATIVE_QUANTITY, "Quantity cannot be negative number")
+            }
+            val product = stockRepo.findByProductId(id)
+            if (product.availableQuantity < quantity) {
+                throw InsufficientStockException(Errors.INSUFFICIENT_QUANTITY, "Not enough stock for product $id")
+            }
+            product.reservedQuantity += quantity
+            return mapper.toDto(stockRepo.save(product))
+        }
 }
