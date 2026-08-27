@@ -1,4 +1,4 @@
-package cz.baladee.ecommerce.catalog.application.dto
+package cz.baladee.ecommerce.catalog.application.dto.product
 
 import java.math.BigDecimal
 import java.util.UUID
