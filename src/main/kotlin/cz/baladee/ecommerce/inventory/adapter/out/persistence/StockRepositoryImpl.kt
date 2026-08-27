@@ -4,8 +4,10 @@ import cz.baladee.ecommerce.inventory.domain.model.Stock
 import cz.baladee.ecommerce.inventory.domain.repository.StockRepository
 import cz.baladee.ecommerce.shared.advice.exception.NotFoundException
 import cz.baladee.ecommerce.shared.util.Errors
+import org.springframework.stereotype.Repository
 import java.util.UUID
 
+@Repository
 class StockRepositoryImpl(
     private val jpaRepo: StockJpaRepository
 ): StockRepository {
