@@ -29,7 +29,7 @@ class StockController(
     @PostMapping("/stock/{id}")
     fun adjustQuantity(
         @PathVariable id: UUID,
-        @RequestParam(value = "quantity", defaultValue = "0") quantity: Long
+        @RequestParam(value = "quantity", defaultValue = "0") quantity: Int
     ): Stock {
         return service.adjustQuantity(id, quantity)
     }

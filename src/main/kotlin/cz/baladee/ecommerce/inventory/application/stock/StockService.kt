@@ -26,7 +26,7 @@ class StockService(
         ))
     }
 
-    fun adjustQuantity(id: UUID, quantity: Long): Stock {
+    fun adjustQuantity(id: UUID, quantity: Int): Stock {
         if (quantity < 0) {
             throw IllegalNegativeNumber(Errors.NEGATIVE_QUANTITY, "Quantity cannot be negative number")
         }

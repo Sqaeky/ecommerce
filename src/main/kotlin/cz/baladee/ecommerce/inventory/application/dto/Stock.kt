@@ -4,6 +4,6 @@ import java.util.UUID
 
 data class Stock(
     val productId: UUID,
-    val quantityInStock: Long,
-    val reserveInStock: Long,
+    val quantityInStock: Int,
+    val reserveInStock: Int,
 )
