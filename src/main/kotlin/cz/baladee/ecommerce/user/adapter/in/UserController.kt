@@ -20,7 +20,7 @@ class UserController(
 ) {
 
     @GetMapping("/me")
-    fun loadUser(): User {
+    fun loadCurrentUser(): User {
         val authentication = SecurityContextHolder.getContext().authentication
         val userDetails = authentication?.principal as CustomUserDetails
         return service.loadUser(userDetails.getId())
