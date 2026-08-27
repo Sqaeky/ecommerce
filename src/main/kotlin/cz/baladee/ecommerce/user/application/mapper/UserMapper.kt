@@ -1,6 +1,8 @@
 package cz.baladee.ecommerce.user.application.mapper
 
 import cz.baladee.ecommerce.user.application.user.dto.Address
+import cz.baladee.ecommerce.user.application.user.dto.UpdateAddressReq
+import cz.baladee.ecommerce.user.application.user.dto.UpdateUserReq
 import cz.baladee.ecommerce.user.application.user.dto.User
 import cz.baladee.ecommerce.user.domain.model.Address as DbAddress
 import cz.baladee.ecommerce.user.domain.model.User as DbUser
@@ -34,7 +36,7 @@ class UserMapper {
         )
     }
 
-    fun modifyUser(dto: User, existingUser: DbUser) {
+    fun modifyUser(dto: UpdateUserReq, existingUser: DbUser) {
         existingUser.firstName = dto.firstName ?: existingUser.firstName
         existingUser.lastName = dto.lastName ?: existingUser.lastName
         existingUser.phone = dto.phone ?: existingUser.phone
@@ -45,7 +47,7 @@ class UserMapper {
         }
     }
 
-    fun modifyAddresses(dtos: List<Address>, user: DbUser) {
+    fun modifyAddresses(dtos: List<UpdateAddressReq>, user: DbUser) {
         dtos.forEach { dto ->
             val existingAddress = user.addresses.find { it.type == dto.type }
 

@@ -2,6 +2,7 @@ package cz.baladee.ecommerce.user.adapter.`in`
 
 import cz.baladee.ecommerce.user.adapter.out.security.CustomUserDetails
 import cz.baladee.ecommerce.user.application.user.UserService
+import cz.baladee.ecommerce.user.application.user.dto.UpdateUserReq
 import cz.baladee.ecommerce.user.application.user.dto.User
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
@@ -26,7 +27,7 @@ class UserController(
     }
 
     @PutMapping("/update/{id}")
-    fun updateUser(@PathVariable id: UUID, @RequestBody user: User) {
+    fun updateUser(@PathVariable id: UUID, @RequestBody user: UpdateUserReq) {
         service.updateUser(id, user)
     }
 }
