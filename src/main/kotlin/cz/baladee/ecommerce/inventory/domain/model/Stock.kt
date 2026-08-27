@@ -13,12 +13,12 @@ class Stock(
     @Id
     var productId: UUID,
     @Column(nullable = false)
-    var quantity: Long = 0L,
+    var quantity: Int = 0,
     @Column(nullable = false, name = "reserved_quantity")
-    var reservedQuantity: Long = 0L,
+    var reservedQuantity: Int = 0,
     @Column(name = "updated_at")
     var updatedAt: Instant = Instant.now(),
     ) {
-    val availableQuantity: Long
+    val availableQuantity: Int
         get() = quantity - reservedQuantity
 }
