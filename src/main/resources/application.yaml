@@ -17,6 +17,12 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
+  modulith:
+    events:
+      jdbc:
+        schema-initialization:
+          enabled: true
+
 server:
   servlet:
     context-path: /api
