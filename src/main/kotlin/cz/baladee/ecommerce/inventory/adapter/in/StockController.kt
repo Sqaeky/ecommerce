@@ -35,7 +35,6 @@ class StockController(
     ): Stock {
         return service.adjustQuantity(id, quantity)
     }
-
     @PostMapping("/stock/{id}/reserve")
     fun reserveQuantity(
         @PathVariable id: UUID,
