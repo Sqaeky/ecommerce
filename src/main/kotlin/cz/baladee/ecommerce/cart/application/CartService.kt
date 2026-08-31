@@ -2,11 +2,15 @@ package cz.baladee.ecommerce.cart.application
 
 import cz.baladee.ecommerce.cart.application.dto.AddToCartRequest
 import cz.baladee.ecommerce.cart.application.dto.CartResponse
+import cz.baladee.ecommerce.cart.application.dto.RemoveCartItemReq
+import cz.baladee.ecommerce.cart.application.dto.UpdateCartReq
 import cz.baladee.ecommerce.cart.application.mapper.CartMapper
 import cz.baladee.ecommerce.cart.domain.model.CartItem
 import cz.baladee.ecommerce.cart.domain.repository.CartRepository
 import cz.baladee.ecommerce.catalog.application.api.ProductQueryService
 import cz.baladee.ecommerce.inventory.application.api.InventoryApi
+import cz.baladee.ecommerce.shared.advice.exception.NotFoundException
+import cz.baladee.ecommerce.shared.util.Errors
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import java.time.Instant
@@ -40,7 +44,7 @@ class CartService(
 
     @Transactional
     fun addCartItem(userId: UUID, req: AddToCartRequest): CartResponse {
-        require(req.quantity > 0) { "Quantity must be > 0" }
+        require(req.quantity > 0) { "Quantity must be above 0" }
 
         val cart = getOrCreateCart(userId)
 
@@ -74,4 +78,41 @@ class CartService(
         return mapper.toResponse(saved)
     }
 
+    @Transactional
+    fun updateCartItem(userId: UUID, req: UpdateCartReq): CartResponse {
+        require(req.quantity > 0) { "Quantity must be above 0"  }
+        val cart = getOrCreateCart(userId)
+
+        val item = cart.items.find { it.productId == req.productId }
+        if (item == null) {
+            throw NotFoundException(Errors.CART_ITEM_MISSING)
+        }
+
+        val diff = req.quantity - item.quantity
+
+        when {
+            diff > 0 -> inventory.reserve(req.productId, diff)
+            diff < 0 -> inventory.release(req.productId, -diff)
+        }
+
+        item.quantity += req.quantity
+        item.updatedAt = Instant.now()
+
+        cart.updatedAt = Instant.now()
+        return mapper.toResponse(cartRepo.save(cart))
+    }
+
+    @Transactional
+    fun removeCartItem(userId: UUID, req: RemoveCartItemReq): CartResponse {
+        val cart = getOrCreateCart(userId)
+
+        val existingItem = cart.items.find { it.productId == req.productId }
+            ?: throw NotFoundException(Errors.CART_ITEM_MISSING)
+
+        inventory.release(existingItem.productId, existingItem.quantity)
+
+        cart.items.remove(existingItem)
+
+        return mapper.toResponse(cartRepo.save(cart))
+    }
 }

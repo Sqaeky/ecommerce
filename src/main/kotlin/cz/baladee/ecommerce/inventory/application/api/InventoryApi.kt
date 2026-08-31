@@ -11,4 +11,8 @@ class InventoryApi(
     fun reserve(productId: UUID, quantity: Int) {
         stockService.reserveQuantity(productId, quantity)
     }
+
+    fun release(productId: UUID, quantity: Int) {
+        stockService.releaseQuantity(productId, quantity)
+    }
 }
