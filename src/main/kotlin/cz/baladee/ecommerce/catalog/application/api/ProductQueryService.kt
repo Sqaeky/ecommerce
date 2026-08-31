@@ -1,6 +1,5 @@
 package cz.baladee.ecommerce.catalog.application.api
 
-import cz.baladee.ecommerce.catalog.application.dto.product.ProductCartInfo
 import cz.baladee.ecommerce.catalog.domain.repository.ProductRepository
 import org.springframework.stereotype.Service
 import java.util.UUID
