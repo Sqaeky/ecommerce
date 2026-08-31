@@ -1,9 +1,10 @@
-package cz.baladee.ecommerce.catalog.application.product
+package cz.baladee.ecommerce.catalog.application
 
 import cz.baladee.ecommerce.catalog.application.dto.product.AddProductReq
 import cz.baladee.ecommerce.catalog.application.dto.product.AddProductRes
 import cz.baladee.ecommerce.catalog.application.dto.product.Product
 import cz.baladee.ecommerce.catalog.application.dto.product.UpdateProductReq
+import cz.baladee.ecommerce.shared.event.ProductCreatedEvent
 import cz.baladee.ecommerce.catalog.application.mapper.ProductMapper
 import cz.baladee.ecommerce.catalog.domain.model.Category
 import cz.baladee.ecommerce.catalog.domain.model.Product as DbProduct
@@ -13,6 +14,7 @@ import cz.baladee.ecommerce.shared.advice.exception.NotFoundException
 import cz.baladee.ecommerce.shared.util.Errors
 import cz.baladee.ecommerce.shared.util.toSlug
 import jakarta.transaction.Transactional
+import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
 import java.time.Instant
@@ -22,7 +24,8 @@ import java.util.UUID
 class ProductService(
     private val categoryRepo: CategoryRepository,
     private val productRepo: ProductRepository,
-    private val mapper: ProductMapper
+    private val mapper: ProductMapper,
+    private val events: ApplicationEventPublisher
 ) {
     @Transactional
     fun addProduct(req: AddProductReq): AddProductRes {
@@ -38,11 +41,16 @@ class ProductService(
             category = category
         )
         val savedProduct = productRepo.save(product)
-        val productId = savedProduct.id
-            ?: throw IllegalStateException("Saved product ID is null")
+
+        events.publishEvent(
+            ProductCreatedEvent(
+                savedProduct.id!!,
+                req.initialStock
+            )
+        )
 
         return AddProductRes(
-            id = productId,
+            id = savedProduct.id!!,
             slug = savedProduct.slug
         )
     }

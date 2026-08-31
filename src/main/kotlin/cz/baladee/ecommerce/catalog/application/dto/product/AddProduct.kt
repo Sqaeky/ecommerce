@@ -7,7 +7,8 @@ data class AddProductReq(
     val name: String,
     val description: String?,
     val price: BigDecimal,
-    val categoryId: UUID
+    val categoryId: UUID,
+    val initialStock: Int? = 0
 )
 
 data class AddProductRes(

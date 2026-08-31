@@ -4,7 +4,7 @@ import cz.baladee.ecommerce.catalog.application.dto.product.AddProductReq
 import cz.baladee.ecommerce.catalog.application.dto.product.AddProductRes
 import cz.baladee.ecommerce.catalog.application.dto.product.Product
 import cz.baladee.ecommerce.catalog.application.dto.product.UpdateProductReq
-import cz.baladee.ecommerce.catalog.application.product.ProductService
+import cz.baladee.ecommerce.catalog.application.ProductService
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
