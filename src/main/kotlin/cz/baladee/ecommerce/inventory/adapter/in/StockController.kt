@@ -21,6 +21,11 @@ class StockController(
         return service.getStockForProduct(id)
     }
 
+    @PostMapping("/stock/{id}/create")
+    fun createStockForProduct(@PathVariable id: UUID) {
+        service.createStockForProduct(id)
+    }
+
     // @param quantity is added to the stock quantity already set
     // final number cannot be in the negative.
     @PostMapping("/stock/{id}/adjust")
@@ -30,7 +35,6 @@ class StockController(
     ): Stock {
         return service.adjustQuantity(id, quantity)
     }
-
     @PostMapping("/stock/{id}/reserve")
     fun reserveQuantity(
         @PathVariable id: UUID,
