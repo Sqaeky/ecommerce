@@ -11,7 +11,7 @@ import cz.baladee.ecommerce.catalog.application.api.ProductQueryService
 import cz.baladee.ecommerce.inventory.application.api.InventoryApi
 import cz.baladee.ecommerce.shared.advice.exception.NotFoundException
 import cz.baladee.ecommerce.shared.util.Errors
-import jakarta.transaction.Transactional
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.util.UUID
@@ -95,7 +95,7 @@ class CartService(
             diff < 0 -> inventory.release(req.productId, -diff)
         }
 
-        item.quantity += req.quantity
+        item.quantity = req.quantity
         item.updatedAt = Instant.now()
 
         cart.updatedAt = Instant.now()

@@ -7,7 +7,7 @@ import cz.baladee.ecommerce.inventory.domain.repository.StockRepository
 import cz.baladee.ecommerce.shared.advice.exception.NegativeQuantityException
 import cz.baladee.ecommerce.shared.advice.exception.InsufficientStockException
 import cz.baladee.ecommerce.shared.util.Errors
-import jakarta.transaction.Transactional
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.stereotype.Service
 import java.util.UUID
 
