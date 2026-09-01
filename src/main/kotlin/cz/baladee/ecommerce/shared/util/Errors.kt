@@ -7,5 +7,6 @@ enum class Errors(val code: String) {
     CATEGORY_ID_NOT_FOUND("003"),
     NEGATIVE_QUANTITY("004"),
     INSUFFICIENT_QUANTITY("005"),
-    CART_ITEM_MISSING("006")
+    CART_NOT_FOUND("006"),
+    CART_ITEM_MISSING("007")
 }

@@ -15,4 +15,8 @@ class InventoryApi(
     fun release(productId: UUID, quantity: Int) {
         stockService.releaseQuantity(productId, quantity)
     }
+
+    fun confirmReservation(productId: UUID, quantity: Int) {
+        stockService.confirmReservation(productId, quantity)
+    }
 }
