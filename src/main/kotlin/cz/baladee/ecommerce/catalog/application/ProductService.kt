@@ -13,7 +13,7 @@ import cz.baladee.ecommerce.catalog.domain.repository.ProductRepository
 import cz.baladee.ecommerce.shared.advice.exception.NotFoundException
 import cz.baladee.ecommerce.shared.util.Errors
 import cz.baladee.ecommerce.shared.util.toSlug
-import jakarta.transaction.Transactional
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
@@ -57,10 +57,7 @@ class ProductService(
 
     fun getProducts(activeFlag: Boolean): List<Product> {
         val products = productRepo.findAll().map { mapper.toDto(it) }
-        if (activeFlag) {
-            products.filter { product -> product.isActive }
-        }
-        return products
+        return if (activeFlag) products.filter { product -> product.isActive } else products
     }
 
     fun getProduct(id: UUID): Product {
