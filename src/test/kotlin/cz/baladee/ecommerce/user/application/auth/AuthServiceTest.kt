@@ -1,6 +1,5 @@
 package cz.baladee.ecommerce.user.application.auth
 
-import cz.baladee.ecommerce.user.adapter.out.security.JwtService
 import cz.baladee.ecommerce.user.application.auth.dto.LoginRequest
 import cz.baladee.ecommerce.user.application.auth.dto.RegisterRequest
 import cz.baladee.ecommerce.user.domain.model.User
@@ -18,13 +17,13 @@ class AuthServiceTest {
 
     private val userRepository = mockk<UserRepository>()
     private val passwordEncoder = mockk<PasswordEncoder>()
-    private val jwtService = mockk<JwtService>()
+    private val jwtTokenProvider = mockk<JwtTokenProvider>()
     private val authenticationManager = mockk<AuthenticationManager>()
 
     private val service = AuthService(
         userRepository = userRepository,
         passwordEncoder = passwordEncoder,
-        jwtService = jwtService,
+        jwtTokenProvider = jwtTokenProvider,
         authenticationManager = authenticationManager
     )
 
@@ -49,7 +48,7 @@ class AuthServiceTest {
         every { userRepository.existsByEmail(req.email) } returns false
         every { passwordEncoder.encode(req.password) } returns encodedPassword
         every { userRepository.save(any()) } returns savedUser
-        every { jwtService.generateToken(any()) } returns "jwt-token"
+        every { jwtTokenProvider.generateToken(any()) } returns "jwt-token"
 
         val response = service.register(req)
 
@@ -57,7 +56,7 @@ class AuthServiceTest {
         assertEquals("Bearer", response.type)
 
         verify(exactly = 1) { userRepository.save(any()) }
-        verify(exactly = 1) { jwtService.generateToken(any()) }
+        verify(exactly = 1) { jwtTokenProvider.generateToken(any()) }
     }
 
     @Test
@@ -92,7 +91,7 @@ class AuthServiceTest {
 
         every { authenticationManager.authenticate(any()) } returns mockk(relaxed = true)
         every { userRepository.findByEmail(req.email) } returns user
-        every { jwtService.generateToken(any()) } returns "login-jwt-token"
+        every { jwtTokenProvider.generateToken(any()) } returns "login-jwt-token"
 
         val response = service.login(req)
 
