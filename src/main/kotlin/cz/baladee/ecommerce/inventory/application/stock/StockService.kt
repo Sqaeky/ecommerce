@@ -9,6 +9,7 @@ import cz.baladee.ecommerce.shared.advice.exception.InsufficientStockException
 import cz.baladee.ecommerce.shared.util.Errors
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.stereotype.Service
+import java.time.Instant
 import java.util.UUID
 
 @Service
@@ -45,30 +46,33 @@ class StockService(
         if (quantity < 0) {
             throw NegativeQuantityException(Errors.NEGATIVE_QUANTITY, "Reserve quantity cannot be negative number")
         }
-        val product = stockRepo.findByProductId(id)
-        if (product.availableQuantity < quantity) {
+        val stock = stockRepo.findByProductId(id)
+        if (stock.availableQuantity < quantity) {
             throw InsufficientStockException(Errors.INSUFFICIENT_QUANTITY, "Not enough stock for product $id")
         }
-        product.reservedQuantity += quantity
-        return mapper.toDto(stockRepo.save(product))
+        stock.reservedQuantity += quantity
+        return mapper.toDto(stockRepo.save(stock))
     }
 
     fun releaseQuantity(id: UUID, quantity: Int): Stock {
-        val product = stockRepo.findByProductId(id)
-        if (product.reservedQuantity < quantity) {
+        val stock = stockRepo.findByProductId(id)
+        if (stock.reservedQuantity < quantity) {
             throw InsufficientStockException(Errors.INSUFFICIENT_QUANTITY, "reserve quantity is not that big")
         }
-        product.reservedQuantity -= quantity
-        return mapper.toDto(stockRepo.save(product))
+        stock.reservedQuantity -= quantity
+        return mapper.toDto(stockRepo.save(stock))
     }
 
-    fun confirmReservation(id: UUID, quantity: Int): Stock {
-        val product = stockRepo.findByProductId(id)
-        if (product.reservedQuantity < quantity) {
-            throw InsufficientStockException(Errors.INSUFFICIENT_QUANTITY, "Message")
+    @Transactional
+    fun confirmReservation(id: UUID, quantity: Int) {
+        val stock = stockRepo.findByProductId(id)
+        if (stock.reservedQuantity >= quantity) {
+            throw InsufficientStockException(Errors.INSUFFICIENT_QUANTITY, "Not enough reserved stock for product $id")
         }
-        product.reservedQuantity -= quantity
-        product.quantity -= quantity
-        return mapper.toDto(stockRepo.save(product))
+        stock.reservedQuantity -= quantity
+        stock.quantity -= quantity
+        stock.updatedAt = Instant.now()
+
+        stockRepo.save(stock)
     }
 }

@@ -1,5 +1,7 @@
 package cz.baladee.ecommerce.cart.application
 
+import cz.baladee.ecommerce.cart.application.api.CartForOrderRes
+import cz.baladee.ecommerce.cart.application.api.CartItemForOrderRes
 import cz.baladee.ecommerce.cart.application.dto.AddToCartRequest
 import cz.baladee.ecommerce.cart.application.dto.CartResponse
 import cz.baladee.ecommerce.cart.application.dto.RemoveCartItemReq
@@ -114,5 +116,34 @@ class CartService(
         cart.items.remove(existingItem)
 
         return mapper.toResponse(cartRepo.save(cart))
+    }
+
+    @Transactional(readOnly = true)
+    fun getCartForCheckout(userId: UUID): CartForOrderRes {
+        val cart = cartRepo.findByUserId(userId)
+            ?: throw NotFoundException(Errors.CART_NOT_FOUND)
+
+        if (cart.items.isEmpty()) {
+            throw IllegalStateException("Cart is empty")
+        }
+
+        return CartForOrderRes(
+            cartId = cart.id!!,
+            items = cart.items.map {
+                CartItemForOrderRes(
+                    productId = it.productId,
+                    quantity = it.quantity,
+                    unitPrice = it.priceAtAddition
+                )
+            }
+        )
+    }
+
+    @Transactional
+    fun clearCart(userId: UUID) {
+        val cart = cartRepo.findByUserId(userId) ?: return
+        cart.items.clear()
+        cart.updatedAt = Instant.now()
+        cartRepo.save(cart)
     }
 }
