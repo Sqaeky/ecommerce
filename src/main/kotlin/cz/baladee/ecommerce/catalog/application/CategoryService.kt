@@ -1,4 +1,4 @@
-package cz.baladee.ecommerce.catalog.application.category
+package cz.baladee.ecommerce.catalog.application
 
 import cz.baladee.ecommerce.catalog.application.dto.category.AddCategoryReq
 import cz.baladee.ecommerce.catalog.application.dto.category.Category

@@ -1,7 +1,7 @@
 package cz.baladee.ecommerce.inventory.adapter.`in`
 
 import cz.baladee.ecommerce.inventory.application.dto.Stock
-import cz.baladee.ecommerce.inventory.application.stock.StockService
+import cz.baladee.ecommerce.inventory.application.StockService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

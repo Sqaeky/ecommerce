@@ -1,6 +1,6 @@
 package cz.baladee.ecommerce.inventory.application.api
 
-import cz.baladee.ecommerce.inventory.application.stock.StockService
+import cz.baladee.ecommerce.inventory.application.StockService
 import org.springframework.stereotype.Service
 import java.util.UUID
 

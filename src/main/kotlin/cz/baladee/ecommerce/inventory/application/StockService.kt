@@ -1,4 +1,4 @@
-package cz.baladee.ecommerce.inventory.application.stock
+package cz.baladee.ecommerce.inventory.application
 
 import cz.baladee.ecommerce.inventory.application.dto.Stock
 import cz.baladee.ecommerce.inventory.application.mapper.StockMapper
@@ -18,11 +18,13 @@ class StockService(
     private val mapper: StockMapper,
 ) {
 
+    @Transactional(readOnly = true)
     fun getStockForProduct(id: UUID): Stock {
         val stock = stockRepo.findByProductId(id)
         return mapper.toDto(stock)
     }
 
+    @Transactional
     fun createStockForProduct(id: UUID, initialStock: Int) {
         stockRepo.save(
             DbStock(
@@ -32,6 +34,7 @@ class StockService(
         )
     }
 
+    @Transactional
     fun adjustQuantity(id: UUID, quantity: Int): Stock {
         val stock = stockRepo.findByProductId(id)
         if (stock.quantity - quantity < 0) {
@@ -54,6 +57,7 @@ class StockService(
         return mapper.toDto(stockRepo.save(stock))
     }
 
+    @Transactional
     fun releaseQuantity(id: UUID, quantity: Int): Stock {
         val stock = stockRepo.findByProductId(id)
         if (stock.reservedQuantity < quantity) {
@@ -66,7 +70,7 @@ class StockService(
     @Transactional
     fun confirmReservation(id: UUID, quantity: Int) {
         val stock = stockRepo.findByProductId(id)
-        if (stock.reservedQuantity >= quantity) {
+        if (stock.reservedQuantity < quantity) {
             throw InsufficientStockException(Errors.INSUFFICIENT_QUANTITY, "Not enough reserved stock for product $id")
         }
         stock.reservedQuantity -= quantity

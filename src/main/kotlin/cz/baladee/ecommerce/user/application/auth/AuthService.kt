@@ -1,7 +1,6 @@
 package cz.baladee.ecommerce.user.application.auth
 
 import cz.baladee.ecommerce.user.adapter.out.security.CustomUserDetails
-import cz.baladee.ecommerce.user.adapter.out.security.JwtService
 import cz.baladee.ecommerce.user.application.auth.dto.AuthResponse
 import cz.baladee.ecommerce.user.application.auth.dto.LoginRequest
 import cz.baladee.ecommerce.user.application.auth.dto.RegisterRequest
@@ -17,7 +16,7 @@ import java.time.Instant
 class AuthService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val jwtService: JwtService,
+    private val jwtTokenProvider: JwtTokenProvider,
     private val authenticationManager: AuthenticationManager
 ) {
     fun register(req: RegisterRequest): AuthResponse {
@@ -36,7 +35,7 @@ class AuthService(
         )
         val savedUser = userRepository.save(user)
 
-        val jwtToken = jwtService.generateToken(CustomUserDetails(savedUser))
+        val jwtToken = jwtTokenProvider.generateToken(CustomUserDetails(savedUser))
 
         return AuthResponse(token = jwtToken)
     }
@@ -52,7 +51,7 @@ class AuthService(
         val user = userRepository.findByEmail(req.email)
             ?: throw IllegalArgumentException("User with email ${req.email} not found")
 
-        val jwtToken = jwtService.generateToken(CustomUserDetails(user))
+        val jwtToken = jwtTokenProvider.generateToken(CustomUserDetails(user))
 
         return AuthResponse(token = jwtToken)
     }
