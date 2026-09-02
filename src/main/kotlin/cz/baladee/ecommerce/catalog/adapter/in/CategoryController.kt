@@ -1,6 +1,6 @@
 package cz.baladee.ecommerce.catalog.adapter.`in`
 
-import cz.baladee.ecommerce.catalog.application.category.CategoryService
+import cz.baladee.ecommerce.catalog.application.CategoryService
 import cz.baladee.ecommerce.catalog.application.dto.category.AddCategoryReq
 import cz.baladee.ecommerce.catalog.application.dto.category.Category
 import cz.baladee.ecommerce.catalog.application.dto.category.UpdateCategoryReq

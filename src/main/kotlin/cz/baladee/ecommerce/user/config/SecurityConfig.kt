@@ -3,6 +3,7 @@ package cz.baladee.ecommerce.user.config
 import cz.baladee.ecommerce.user.adapter.out.security.JwtAuthFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider
@@ -28,7 +29,8 @@ class SecurityConfig(
             .csrf { it.disable() }
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/auth/**", "/error").permitAll() // login + register
+                    .requestMatchers(HttpMethod.GET, "/catalog/products/**", "/catalog/categories/**").permitAll() // Get operace pro catalog
+                    .requestMatchers("/auth/**", "/error",).permitAll() // login + register
                     .anyRequest().authenticated()
             }
             .sessionManagement { session ->

@@ -1,7 +1,7 @@
 package cz.baladee.ecommerce.inventory.application.listener
 
 import cz.baladee.ecommerce.shared.event.ProductCreatedEvent
-import cz.baladee.ecommerce.inventory.application.stock.StockService
+import cz.baladee.ecommerce.inventory.application.StockService
 import org.springframework.modulith.events.ApplicationModuleListener
 import org.springframework.stereotype.Component
 

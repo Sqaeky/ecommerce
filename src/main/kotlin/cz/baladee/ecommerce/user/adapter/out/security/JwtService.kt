@@ -1,5 +1,6 @@
 package cz.baladee.ecommerce.user.adapter.out.security
 
+import cz.baladee.ecommerce.user.application.auth.JwtTokenProvider
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Value
@@ -14,11 +15,11 @@ class JwtService(
     private val secret: String,
     @Value("\${spring.jwt.expiration-ms:84600000}") // Default to 24 hours if not set
     private val expirationMs: Long
-) {
+): JwtTokenProvider {
 
     private val key = Keys.hmacShaKeyFor(secret.toByteArray())
 
-    fun generateToken(userDetails: UserDetails): String {
+    override fun generateToken(userDetails: UserDetails): String {
         val now = Date()
         val expiration = Date(now.time + expirationMs)
 
@@ -30,11 +31,11 @@ class JwtService(
             .compact()
     }
 
-    fun extractUsername(token: String): String {
+    override fun extractUsername(token: String): String {
         return extractAllClaims(token).subject
     }
 
-    fun validateToken(token: String, userDetails: UserDetails): Boolean {
+    override fun validateToken(token: String, userDetails: UserDetails): Boolean {
         val username = extractUsername(token)
         return (username == userDetails.username) && !isTokenExpired(token)
     }
