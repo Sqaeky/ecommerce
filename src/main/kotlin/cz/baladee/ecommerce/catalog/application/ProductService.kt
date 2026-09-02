@@ -55,11 +55,13 @@ class ProductService(
         )
     }
 
+    @Transactional(readOnly = true)
     fun getProducts(activeFlag: Boolean): List<Product> {
         val products = productRepo.findAll().map { mapper.toDto(it) }
         return if (activeFlag) products.filter { product -> product.isActive } else products
     }
 
+    @Transactional(readOnly = true)
     fun getProduct(id: UUID): Product {
         val product = productRepo.findById(id)
         return mapper.toDto(product)

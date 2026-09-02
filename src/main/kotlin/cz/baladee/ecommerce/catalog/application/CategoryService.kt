@@ -9,8 +9,8 @@ import cz.baladee.ecommerce.catalog.domain.repository.CategoryRepository
 import cz.baladee.ecommerce.shared.advice.exception.NotFoundException
 import cz.baladee.ecommerce.shared.util.Errors
 import cz.baladee.ecommerce.shared.util.toSlug
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
@@ -19,6 +19,7 @@ class CategoryService(
     private val mapper: CategoryMapper
 ) {
 
+    @Transactional
     fun addCategory(req: AddCategoryReq): Category {
         val category = DbCategory(
             name = req.name,
@@ -30,16 +31,17 @@ class CategoryService(
         return mapper.toDto(savedCategory)
     }
 
+    @Transactional(readOnly = true)
     fun getCategories(): List<Category> {
         return repo.findAll().map { mapper.toDto(it) }
     }
 
+    @Transactional(readOnly = true)
     fun getCategory(id: UUID): Category {
         return mapper.toDto(repo.findById(id)
             ?: throw NotFoundException(Errors.CATEGORY_ID_NOT_FOUND))
     }
 
-    // TODO dodělat úpravu i podkategorií
     @Transactional
     fun updateCategory(id: UUID, req: UpdateCategoryReq) {
         val category = repo.findById(id) ?: throw NotFoundException(Errors.CATEGORY_ID_NOT_FOUND)

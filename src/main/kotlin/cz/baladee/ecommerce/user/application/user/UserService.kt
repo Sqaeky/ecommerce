@@ -7,6 +7,7 @@ import cz.baladee.ecommerce.user.application.user.dto.UpdateUserReq
 import cz.baladee.ecommerce.user.application.user.dto.User
 import cz.baladee.ecommerce.user.domain.repository.UserRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
 
 @Service
@@ -15,11 +16,13 @@ class UserService(
     private val mapper: UserMapper
 ) {
 
+    @Transactional(readOnly = true)
     fun loadUser(id: UUID): User {
         val user = userRepo.findById(id) ?: throw NotFoundException(USER_ID_NOT_FOUND)
         return mapper.toDto(user)
     }
 
+    @Transactional
     fun updateUser(id: UUID, user: UpdateUserReq) {
         val existingUser = userRepo.findById(id) ?: throw NotFoundException(USER_ID_NOT_FOUND)
         mapper.modifyUser(user, existingUser)

@@ -114,6 +114,7 @@ class CartService(
         inventory.release(existingItem.productId, existingItem.quantity)
 
         cart.items.remove(existingItem)
+        cart.updatedAt = Instant.now()
 
         return mapper.toResponse(cartRepo.save(cart))
     }
