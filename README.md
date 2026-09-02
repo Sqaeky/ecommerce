@@ -163,8 +163,3 @@ Bruno collection: [`docs/bruno`](docs/bruno)
 | Cart | Done |
 | Order | In progress / basic checkout |
 | Payment | Planned |
-
-## License
-
-This repository is a personal portfolio project.  
-Add a license (e.g. MIT) if you want others to reuse the code.
